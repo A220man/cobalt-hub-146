@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "current_feature": "core-indexing",
+  "features": [
+    {
+      "id": "core-indexing",
+      "title": "Core Document Indexing Pipeline",
+      "status": "in_progress",
+      "acceptance": [
+        "Parse PDF documents and extract text content",
+        "Build hierarchical tree structure from document content",
+        "Store index with document metadata and structure",
+        "Query indexed documents with basic retrieval"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "incremental-updates",
+      "title": "Incremental Index Updates for Large Documents",
+      "status": "planned",
+      "acceptance": [
+        "Detect changed sections between document versions",
+        "Rebuild only affected branches of the document tree",
+        "Recompute summaries only along impacted paths"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "usage-observability",
+      "title": "Per-Call Chat Usage Observability",
+      "status": "planned",
+      "acceptance": [
+        "Expose individual model-call usage records",
+        "Distinguish complete, partial, and unknown measurements",
+        "Preserve cache-read, cache-write, and reasoning quantities"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "leaf-nodes-bugfix",
+      "title": "Fix get_leaf_nodes KeyError Bug",
+      "status": "planned",
+      "acceptance": [
+        "get_leaf_nodes handles nodes without 'nodes' key",
+        "Returns leaf nodes correctly from tree built by list_to_tree"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "mcp-server",
+      "title": "Standalone Local MCP Server",
+      "status": "planned",
+      "acceptance": [
+        "stdio transport MCP server exposing agent tools",
+        "pageindex-mcp console entry point",
+        "Integration with PageIndexLocalClient"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "pydantic-validation",
+      "title": "Pydantic Validation for LLM JSON Outputs",
+      "status": "planned",
+      "acceptance": [
+        "Schema validation for LLM responses in indexing pipeline",
+        "Fail deterministically on malformed JSON"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "toc-page-offset-bugfix",
+      "title": "Fix TOC Page Offset NoneType Error",
+      "status": "planned",
+      "acceptance": [
+        "Handle None page values in add_page_offset_to_toc_json",
+        "Process TOC with missing page numbers gracefully"
+      ],
+      "implementation": [],
+      "tests": []
+    }
+  ]
+}

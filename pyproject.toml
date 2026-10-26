@@ -1,0 +1,60 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "cobalt-hub-146"
+version = "0.1.0"
+description = "PageIndex: Document Index for Vectorless, Reasoning-based RAG"
+authors = ["Ryan Vo <ryandtvo@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/A220man/cobalt-hub-146"
+packages = [{include = "pageindex"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Indexing",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pdfplumber = "^0.11.0"
+pydantic = "^2.6.0"
+pydantic-settings = "^2.2.0"
+tenacity = "^8.2.0"
+tqdm = "^4.66.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^4.1.0"
+ruff = "^0.2.0"
+mypy = "^1.8.0"
+
+[tool.poetry.group.mcp.dependencies]
+mcp = "^1.19.0"
+
+[tool.poetry.scripts]
+pageindex = "pageindex.cli:main"
+pageindex-mcp = "pageindex.mcp_server:main"
+
+[tool.poetry.extras]
+mcp = ["mcp"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
