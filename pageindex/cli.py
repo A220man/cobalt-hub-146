@@ -11,7 +11,7 @@ from .utils import print_tree
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="PageIndex: Document Index for Vectorless RAG")
-    parser.add_argument("pdf_path", help="Path to PDF file")
+    parser.add_argument("pdf_path", nargs="?", help="Path to PDF file")
     parser.add_argument("--storage", default="./index_store", help="Storage directory")
     parser.add_argument("--title", default="", help="Document title")
     parser.add_argument("--doc-id", default="", help="Document ID")
@@ -31,6 +31,9 @@ def main() -> int:
         else:
             print("No indexes found")
         return 0
+
+    if not args.pdf_path:
+        parser.error("pdf_path is required unless --list is used")
 
     if not Path(args.pdf_path).exists():
         print(f"Error: File not found: {args.pdf_path}")
@@ -57,6 +60,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-</arg_key>
-<arg_key=i</arg_key>
-<arg_value>Create CLI module

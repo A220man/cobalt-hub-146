@@ -101,6 +101,3 @@ async def update_document_index(
     )
     new_index.version = existing_index.version + 1
     return new_index
-</arg_key>
-<arg_key=i</arg_key>
-<arg_value>Create page_index.py main module

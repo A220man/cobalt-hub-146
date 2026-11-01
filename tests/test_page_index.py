@@ -23,6 +23,3 @@ def test_add_page_offset_to_toc_json_all_present():
     result = add_page_offset_to_toc_json(toc, 10)
     assert result[0]["physical_index"] == 11  # 1 + 10
     assert result[1]["physical_index"] == 15  # 5 + 10
-</arg_key>
-<arg_key=i</arg_key>
-<arg_value>Create test page_index module
