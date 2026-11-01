@@ -5,15 +5,25 @@
     {
       "id": "core-indexing",
       "title": "Core Document Indexing Pipeline",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Parse PDF documents and extract text content",
         "Build hierarchical tree structure from document content",
         "Store index with document metadata and structure",
         "Query indexed documents with basic retrieval"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "pageindex/page_index.py",
+        "pageindex/pdf_extract.py",
+        "pageindex/utils.py",
+        "pageindex/storage.py",
+        "pageindex/models.py",
+        "pageindex/cli.py"
+      ],
+      "tests": [
+        "tests/test_page_index.py",
+        "tests/test_utils.py"
+      ]
     },
     {
       "id": "incremental-updates",
@@ -42,13 +52,17 @@
     {
       "id": "leaf-nodes-bugfix",
       "title": "Fix get_leaf_nodes KeyError Bug",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "get_leaf_nodes handles nodes without 'nodes' key",
         "Returns leaf nodes correctly from tree built by list_to_tree"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "pageindex/utils.py"
+      ],
+      "tests": [
+        "tests/test_utils.py::test_get_leaf_nodes_no_keyerror"
+      ]
     },
     {
       "id": "mcp-server",
@@ -76,13 +90,17 @@
     {
       "id": "toc-page-offset-bugfix",
       "title": "Fix TOC Page Offset NoneType Error",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Handle None page values in add_page_offset_to_toc_json",
         "Process TOC with missing page numbers gracefully"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "pageindex/page_index.py"
+      ],
+      "tests": [
+        "tests/test_page_index.py::test_add_page_offset_to_toc_json_none_page"
+      ]
     }
   ]
 }

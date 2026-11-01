@@ -32,6 +32,3 @@ def extract_pdf_toc(pdf_path: str) -> List[Dict[str, Any]]:
                     "end_index": entry.get("page", 1),
                 })
     return toc
-</arg_key>
-<arg_key=i</arg_key>
-<arg_value>Create PDF extraction module

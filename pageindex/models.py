@@ -34,6 +34,3 @@ class PageContent(BaseModel):
 # Forward reference resolution
 DocumentNode.model_rebuild()
 DocumentIndex.model_rebuild()
-</arg_key>
-<arg_key=i</arg_key>
-<arg_value>Create data models

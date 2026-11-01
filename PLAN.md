@@ -10,13 +10,17 @@ core-indexing
 
 ### core-indexing — Core Document Indexing Pipeline
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Parse PDF documents and extract text content
 - Build hierarchical tree structure from document content
 - Store index with document metadata and structure
 - Query indexed documents with basic retrieval
+
+Implementation: `pageindex/page_index.py`, `pageindex/pdf_extract.py`, `pageindex/utils.py`, `pageindex/storage.py`, `pageindex/models.py`, `pageindex/cli.py`
+
+Tests: `tests/test_page_index.py`, `tests/test_utils.py`
 
 ### incremental-updates — Incremental Index Updates for Large Documents
 
@@ -38,11 +42,15 @@ Acceptance:
 
 ### leaf-nodes-bugfix — Fix get_leaf_nodes KeyError Bug
 
-Status: planned
+Status: done
 
 Acceptance:
 - get_leaf_nodes handles nodes without 'nodes' key
 - Returns leaf nodes correctly from tree built by list_to_tree
+
+Implementation: `pageindex/utils.py`
+
+Tests: `tests/test_utils.py::test_get_leaf_nodes_no_keyerror`
 
 ### mcp-server — Standalone Local MCP Server
 
@@ -63,9 +71,13 @@ Acceptance:
 
 ### toc-page-offset-bugfix — Fix TOC Page Offset NoneType Error
 
-Status: planned
+Status: done
 
 Acceptance:
 - Handle None page values in add_page_offset_to_toc_json
 - Process TOC with missing page numbers gracefully
+
+Implementation: `pageindex/page_index.py`
+
+Tests: `tests/test_page_index.py::test_add_page_offset_to_toc_json_none_page`
 

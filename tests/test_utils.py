@@ -54,10 +54,16 @@ def test_list_to_tree_nested():
         {"structure": "2", "title": "Chapter 2", "start_index": 11, "end_index": 15},
     ]
     tree = list_to_tree(flat)
-    assert tree["title"] == "Chapter 1"
-    assert len(tree["nodes"]) == 2
-    assert tree["nodes"][0]["title"] == "Section 1.1"
-    assert tree["nodes"][1]["title"] == "Section 1.2"
-</arg_key>
-<arg_key=i</arg_key>
-<arg_value>Create test utils module
+    # With multiple top-level items, returns virtual root
+    assert tree["structure"] == ""
+    assert tree["title"] == ""
+    assert len(tree["nodes"]) == 2  # Chapter 1 and Chapter 2
+    chapter1 = tree["nodes"][0]
+    assert chapter1["title"] == "Chapter 1"
+    assert len(chapter1["nodes"]) == 2  # Section 1.1 and Section 1.2
+    assert chapter1["nodes"][0]["title"] == "Section 1.1"
+    assert chapter1["nodes"][1]["title"] == "Section 1.2"
+    chapter2 = tree["nodes"][1]
+    # Chapter 2 is a leaf, so 'nodes' key is removed by clean_node
+    assert "nodes" not in chapter2
+    assert is_leaf_node(chapter2)
