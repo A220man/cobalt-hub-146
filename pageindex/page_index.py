@@ -2,11 +2,12 @@
 
 import hashlib
 import uuid
-from typing import List, Dict, Any, Optional
-from .models import DocumentIndex, DocumentNode, PageContent
-from .utils import list_to_tree, get_leaf_nodes
+from typing import Any
+
+from .models import DocumentIndex
 from .pdf_extract import extract_pdf_pages, extract_pdf_toc
 from .storage import IndexStorage
+from .utils import get_leaf_nodes, list_to_tree
 
 
 def compute_content_hash(text: str) -> str:
@@ -17,8 +18,8 @@ def compute_content_hash(text: str) -> str:
 async def build_document_index(
     pdf_path: str,
     title: str = "",
-    doc_id: Optional[str] = None,
-    storage: Optional[IndexStorage] = None,
+    doc_id: str | None = None,
+    storage: IndexStorage | None = None,
 ) -> DocumentIndex:
     """Build document index from PDF."""
     if doc_id is None:
@@ -61,7 +62,7 @@ async def build_document_index(
         doc_id=doc_id,
         title=title,
         total_pages=len(pages),
-        structure=structure,
+        structure=structure,  # type: ignore[arg-type]
         pages=pages,
     )
 
@@ -72,7 +73,7 @@ async def build_document_index(
     return index
 
 
-def add_page_offset_to_toc_json(toc: List[Dict[str, Any]], offset: int) -> List[Dict[str, Any]]:
+def add_page_offset_to_toc_json(toc: list[dict[str, Any]], offset: int) -> list[dict[str, Any]]:
     """Add page offset to TOC entries. Fixed: handle None page values."""
     result = []
     for entry in toc:
@@ -89,15 +90,15 @@ def add_page_offset_to_toc_json(toc: List[Dict[str, Any]], offset: int) -> List[
 async def update_document_index(
     existing_index: DocumentIndex,
     new_pdf_path: str,
-    storage: Optional[IndexStorage] = None,
+    storage: IndexStorage | None = None,
 ) -> DocumentIndex:
     """Update document index incrementally (placeholder for full implementation)."""
     # For now, rebuild full index - incremental logic to be implemented
     new_index = await build_document_index(
         new_pdf_path,
-        "",
-        doc_id=existing_index.doc_id,
         title=existing_index.title,
+        doc_id=existing_index.doc_id,
+        storage=storage,
     )
     new_index.version = existing_index.version + 1
     return new_index

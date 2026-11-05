@@ -1,0 +1,24 @@
+# Checkpoint status
+
+Work in progress; not a release-readiness or successful QA claim.
+
+Version: 1.1.0
+
+## Completed this round
+
+- Core document indexing pipeline: PDF extraction, tree building, content hashing, JSON storage, CLI
+- **Issue #330**: Fixed `get_leaf_nodes` KeyError on leaf nodes (missing `nodes` key) — `utils.py:61` uses `.get("nodes")`
+- **Issue #153**: Fixed `add_page_offset_to_toc_json` TypeError when page is missing — `page_index.py:81-84` handles `None` page
+- Type annotations modernized across codebase (PEP 585/604): `list`/`dict` instead of `List`/`Dict`, `X | None` instead of `Optional[X]`
+- All 6 tests pass
+- Ruff linting clean
+- Mypy type checking clean (7 files)
+
+## Outstanding findings
+
+No completed independent review for this checkpoint.
+
+## Next round
+
+Resume PLAN.md, check the current code, fix failures and advance one feature.
+
