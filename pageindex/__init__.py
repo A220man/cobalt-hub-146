@@ -2,25 +2,30 @@
 PageIndex: Document Index for Vectorless, Reasoning-based RAG
 """
 
-from .page_index import build_document_index, add_page_offset_to_toc_json, update_document_index, compute_content_hash
-from .storage import IndexStorage
-from .utils import list_to_tree, get_leaf_nodes, is_leaf_node, format_structure, print_tree
 from .models import DocumentIndex, DocumentNode, PageContent
+from .page_index import (
+    add_page_offset_to_toc_json,
+    build_document_index,
+    compute_content_hash,
+    update_document_index,
+)
+from .storage import IndexStorage
+from .utils import format_structure, get_leaf_nodes, is_leaf_node, list_to_tree, print_tree
 
 __version__ = "0.1.0"
 
 __all__ = [
-    "build_document_index",
-    "add_page_offset_to_toc_json",
-    "update_document_index",
-    "compute_content_hash",
-    "IndexStorage",
-    "list_to_tree",
-    "get_leaf_nodes",
-    "is_leaf_node",
-    "format_structure",
-    "print_tree",
     "DocumentIndex",
     "DocumentNode",
+    "IndexStorage",
     "PageContent",
+    "add_page_offset_to_toc_json",
+    "build_document_index",
+    "compute_content_hash",
+    "format_structure",
+    "get_leaf_nodes",
+    "is_leaf_node",
+    "list_to_tree",
+    "print_tree",
+    "update_document_index",
 ]

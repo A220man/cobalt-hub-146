@@ -1,11 +1,13 @@
 """PDF text extraction using pdfplumber."""
 
+from typing import Any
+
 import pdfplumber
-from typing import List, Dict, Any
+
 from .models import PageContent
 
 
-def extract_pdf_pages(pdf_path: str) -> List[PageContent]:
+def extract_pdf_pages(pdf_path: str) -> list[PageContent]:
     """Extract text content from each page of a PDF."""
     pages = []
     with pdfplumber.open(pdf_path) as pdf:
@@ -19,7 +21,7 @@ def extract_pdf_pages(pdf_path: str) -> List[PageContent]:
     return pages
 
 
-def extract_pdf_toc(pdf_path: str) -> List[Dict[str, Any]]:
+def extract_pdf_toc(pdf_path: str) -> list[dict[str, Any]]:
     """Extract table of contents from PDF."""
     toc = []
     with pdfplumber.open(pdf_path) as pdf:

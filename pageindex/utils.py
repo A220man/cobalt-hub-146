@@ -1,24 +1,23 @@
 """Utility functions for tree operations and formatting."""
 
 import copy
-from typing import Any, Dict, List
+from typing import Any
 
 
-def clean_node(node: Dict[str, Any]) -> None:
+def clean_node(node: dict[str, Any]) -> None:
     """Remove empty nodes key from leaf nodes."""
     if not node.get("nodes"):
         node.pop("nodes", None)
 
 
-def list_to_tree(flat_list: List[Dict[str, Any]]) -> Dict[str, Any]:
+def list_to_tree(flat_list: list[dict[str, Any]]) -> dict[str, Any]:
     """Convert flat list of sections to hierarchical tree."""
     if not flat_list:
         return {}
 
     # Build tree from flat list using a virtual root
-    # Build tree from flat list using a virtual root at level -1
-    virtual_root = {"nodes": []}
-    stack = [(-1, virtual_root)]  # (level, parent_node)
+    virtual_root: dict[str, Any] = {"nodes": []}
+    stack: list[tuple[int, dict[str, Any]]] = [(-1, virtual_root)]  # (level, parent_node)
 
     for item in flat_list:
         level = item["structure"].count(".")
@@ -39,7 +38,7 @@ def list_to_tree(flat_list: List[Dict[str, Any]]) -> Dict[str, Any]:
         stack.append((level, node))
 
     # Clean up empty nodes
-    def clean_recursive(n: Dict[str, Any]) -> None:
+    def clean_recursive(n: dict[str, Any]) -> None:
         for child in n.get("nodes", []):
             clean_recursive(child)
         clean_node(n)
@@ -47,7 +46,7 @@ def list_to_tree(flat_list: List[Dict[str, Any]]) -> Dict[str, Any]:
     clean_recursive(virtual_root)
 
     # Return first child if only one, otherwise create a virtual node
-    children = virtual_root["nodes"]
+    children: list[dict[str, Any]] = virtual_root["nodes"]
     if len(children) == 1:
         return children[0]
     else:
@@ -55,7 +54,7 @@ def list_to_tree(flat_list: List[Dict[str, Any]]) -> Dict[str, Any]:
         return {"structure": "", "title": "", "nodes": children, "start_index": 0, "end_index": 0}
 
 
-def get_leaf_nodes(structure: Dict[str, Any]) -> List[Dict[str, Any]]:
+def get_leaf_nodes(structure: dict[str, Any]) -> list[dict[str, Any]]:
     """Get all leaf nodes from tree structure."""
     if isinstance(structure, dict):
         nodes = structure.get("nodes")
@@ -71,12 +70,12 @@ def get_leaf_nodes(structure: Dict[str, Any]) -> List[Dict[str, Any]]:
     return []
 
 
-def is_leaf_node(structure: Dict[str, Any]) -> bool:
+def is_leaf_node(structure: dict[str, Any]) -> bool:
     """Check if a node is a leaf (has no children)."""
     return not structure.get("nodes")
 
 
-def format_structure(structure: Dict[str, Any], indent: int = 0) -> str:
+def format_structure(structure: dict[str, Any], indent: int = 0) -> str:
     """Format tree structure as string."""
     lines = []
     prefix = "  " * indent
@@ -86,6 +85,6 @@ def format_structure(structure: Dict[str, Any], indent: int = 0) -> str:
     return "\n".join(lines)
 
 
-def print_tree(structure: Dict[str, Any], indent: int = 0) -> None:
+def print_tree(structure: dict[str, Any], indent: int = 0) -> None:
     """Print tree structure to stdout."""
     print(format_structure(structure, indent))

@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import sys
 from pathlib import Path
+
 from .page_index import build_document_index
 from .storage import IndexStorage
 from .utils import print_tree
@@ -53,7 +54,7 @@ def main() -> int:
 
     if args.print_tree:
         print("\nDocument structure:")
-        print_tree(index.structure)
+        print_tree(index.structure.model_dump())
 
     return 0
 

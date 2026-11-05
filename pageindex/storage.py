@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import List, Optional
+
 from .models import DocumentIndex
 
 
@@ -22,7 +22,7 @@ class IndexStorage:
         with open(file_path, "w") as f:
             json.dump(index.model_dump(), f, indent=2)
 
-    def load(self, doc_id: str) -> Optional[DocumentIndex]:
+    def load(self, doc_id: str) -> DocumentIndex | None:
         """Load index from storage."""
         file_path = self._index_file(doc_id)
         if not file_path.exists():
@@ -34,5 +34,5 @@ class IndexStorage:
     def exists(self, doc_id: str) -> bool:
         return self._index_file(doc_id).exists()
 
-    def list_indexes(self) -> List[str]:
+    def list_indexes(self) -> list[str]:
         return [f.stem for f in self.storage_path.glob("*.json")]

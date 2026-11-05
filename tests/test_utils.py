@@ -1,7 +1,6 @@
 """Test utils module - get_leaf_nodes bug fix verification."""
 
-import copy
-from pageindex.utils import get_leaf_nodes, list_to_tree, is_leaf_node, format_structure
+from pageindex.utils import format_structure, get_leaf_nodes, is_leaf_node, list_to_tree
 
 
 def test_get_leaf_nodes_no_keyerror():

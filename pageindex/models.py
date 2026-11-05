@@ -1,4 +1,5 @@
-from typing import List, Dict, Any, Optional
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -8,9 +9,9 @@ class DocumentNode(BaseModel):
     title: str = Field(..., description="Section title")
     start_index: int = Field(..., description="Start page (1-based)")
     end_index: int = Field(..., description="End page (1-based)")
-    nodes: List["DocumentNode"] = Field(default_factory=list, description="Child nodes")
-    summary: Optional[str] = Field(default=None, description="Generated summary")
-    content_hash: Optional[str] = Field(default=None, description="Hash for incremental updates")
+    nodes: list["DocumentNode"] = Field(default_factory=list, description="Child nodes")
+    summary: str | None = Field(default=None, description="Generated summary")
+    content_hash: str | None = Field(default=None, description="Hash for incremental updates")
 
 
 class DocumentIndex(BaseModel):
@@ -19,8 +20,8 @@ class DocumentIndex(BaseModel):
     title: str = Field(..., description="Document title")
     total_pages: int = Field(..., description="Total page count")
     structure: DocumentNode = Field(..., description="Root of document hierarchy")
-    pages: List["PageContent"] = Field(default_factory=list, description="Page contents")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
+    pages: list["PageContent"] = Field(default_factory=list, description="Page contents")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
     version: int = Field(default=1, description="Index version for incremental updates")
 
 
