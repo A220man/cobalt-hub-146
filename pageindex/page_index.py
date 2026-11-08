@@ -92,13 +92,99 @@ async def update_document_index(
     new_pdf_path: str,
     storage: IndexStorage | None = None,
 ) -> DocumentIndex:
-    """Update document index incrementally (placeholder for full implementation)."""
-    # For now, rebuild full index - incremental logic to be implemented
-    new_index = await build_document_index(
-        new_pdf_path,
-        title=existing_index.title,
-        doc_id=existing_index.doc_id,
-        storage=storage,
+    """Update document index incrementally by comparing content hashes."""
+    # Extract new pages
+    new_pages = extract_pdf_pages(new_pdf_path)
+
+    # Extract TOC from new PDF
+    new_toc = extract_pdf_toc(new_pdf_path)
+
+    # If no TOC found, create flat structure from pages
+    if not new_toc:
+        new_toc = [
+            {
+                "structure": str(i + 1),
+                "title": f"Page {i + 1}",
+                "start_index": i + 1,
+                "end_index": i + 1,
+            }
+            for i in range(len(new_pages))
+        ]
+
+    # Build new tree structure
+    new_structure_dict = list_to_tree(new_toc)
+
+    # Compute content hashes for new leaf nodes
+    new_leaf_nodes = get_leaf_nodes(new_structure_dict)
+    for leaf in new_leaf_nodes:
+        start = leaf["start_index"] - 1
+        end = leaf["end_index"]
+        content = "".join(p.text for p in new_pages[start:end])
+        leaf["content_hash"] = compute_content_hash(content)
+
+    # Merge: reuse unchanged nodes from existing index
+    merged_structure = merge_tree_structures(
+        existing_index.structure.model_dump(),
+        new_structure_dict
     )
-    new_index.version = existing_index.version + 1
-    return new_index
+
+    # Create updated index
+    updated_index = DocumentIndex(
+        doc_id=existing_index.doc_id,
+        title=existing_index.title,
+        total_pages=len(new_pages),
+        structure=merged_structure,  # type: ignore[arg-type]
+        pages=new_pages,
+        version=existing_index.version + 1,
+    )
+
+    # Save if storage provided
+    if storage:
+        storage.save(updated_index)
+
+    return updated_index
+
+
+def merge_tree_structures(
+    old_structure: dict[str, Any],
+    new_structure: dict[str, Any],
+) -> dict[str, Any]:
+    """Merge old and new tree structures, reusing unchanged nodes based on content_hash."""
+    # If both are leaf nodes, compare content hashes
+    old_nodes = old_structure.get("nodes")
+    new_nodes = new_structure.get("nodes")
+
+    if not old_nodes and not new_nodes:
+        # Both are leaf nodes - compare content hashes
+        old_hash = old_structure.get("content_hash")
+        new_hash = new_structure.get("content_hash")
+        if old_hash == new_hash:
+            # Content unchanged - reuse old node (preserves summary, etc.)
+            return old_structure
+        else:
+            # Content changed - use new node
+            return new_structure
+
+    # At least one has children - merge recursively
+    result = new_structure.copy()
+    if new_nodes:
+        # Build lookup of old children by structure number
+        old_children = {}
+        if old_nodes:
+            for child in old_nodes:
+                old_children[child.get("structure", "")] = child
+
+        merged_children = []
+        for new_child in new_nodes:
+            structure_key = new_child.get("structure", "")
+            old_child = old_children.get(structure_key)
+            if old_child:
+                # Recursively merge
+                merged_child = merge_tree_structures(old_child, new_child)
+                merged_children.append(merged_child)
+            else:
+                # New child - use as-is
+                merged_children.append(new_child)
+        result["nodes"] = merged_children
+
+    return result
