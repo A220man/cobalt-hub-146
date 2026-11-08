@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "core-indexing",
+  "current_feature": "incremental-updates",
   "features": [
     {
       "id": "core-indexing",
@@ -28,14 +28,20 @@
     {
       "id": "incremental-updates",
       "title": "Incremental Index Updates for Large Documents",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Detect changed sections between document versions",
         "Rebuild only affected branches of the document tree",
         "Recompute summaries only along impacted paths"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "pageindex/page_index.py"
+      ],
+      "tests": [
+        "tests/test_page_index.py::test_merge_tree_structures_unchanged_leaf",
+        "tests/test_page_index.py::test_merge_tree_structures_changed_leaf",
+        "tests/test_page_index.py::test_merge_tree_structures_nested"
+      ]
     },
     {
       "id": "usage-observability",

@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-core-indexing
+incremental-updates
 
 ## Roadmap
 
@@ -24,12 +24,16 @@ Tests: `tests/test_page_index.py`, `tests/test_utils.py`
 
 ### incremental-updates — Incremental Index Updates for Large Documents
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Detect changed sections between document versions
 - Rebuild only affected branches of the document tree
 - Recompute summaries only along impacted paths
+
+Implementation: `pageindex/page_index.py`
+
+Tests: `tests/test_page_index.py::test_merge_tree_structures_unchanged_leaf`, `tests/test_page_index.py::test_merge_tree_structures_changed_leaf`, `tests/test_page_index.py::test_merge_tree_structures_nested`
 
 ### usage-observability — Per-Call Chat Usage Observability
 
