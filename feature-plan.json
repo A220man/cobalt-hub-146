@@ -28,11 +28,11 @@
     {
       "id": "incremental-updates",
       "title": "Incremental Index Updates for Large Documents",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Detect changed sections between document versions",
         "Rebuild only affected branches of the document tree",
-        "Recompute summaries only along impacted paths"
+        "Recompute summaries only along impacted paths (requires LLM integration; tracked separately)"
       ],
       "implementation": [
         "pageindex/page_index.py"

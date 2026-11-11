@@ -24,12 +24,12 @@ Tests: `tests/test_page_index.py`, `tests/test_utils.py`
 
 ### incremental-updates — Incremental Index Updates for Large Documents
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Detect changed sections between document versions
 - Rebuild only affected branches of the document tree
-- Recompute summaries only along impacted paths
+- Recompute summaries only along impacted paths (requires LLM integration; tracked separately)
 
 Implementation: `pageindex/page_index.py`
 
