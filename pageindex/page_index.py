@@ -1,5 +1,6 @@
 """Main document index building pipeline."""
 
+import copy
 import hashlib
 import uuid
 from typing import Any
@@ -7,7 +8,7 @@ from typing import Any
 from .models import DocumentIndex
 from .pdf_extract import extract_pdf_pages, extract_pdf_toc
 from .storage import IndexStorage
-from .utils import get_leaf_nodes, list_to_tree
+from .utils import clean_node, get_leaf_nodes, list_to_tree
 
 
 def compute_content_hash(text: str) -> str:
@@ -160,10 +161,13 @@ def merge_tree_structures(
         new_hash = new_structure.get("content_hash")
         if old_hash == new_hash:
             # Content unchanged - reuse old node (preserves summary, etc.)
-            return old_structure
+            result = old_structure.copy()
         else:
             # Content changed - use new node
-            return new_structure
+            result = new_structure.copy()
+        # Normalize nodes key for consistency
+        clean_node(result)
+        return result
 
     # At least one has children - merge recursively
     result = new_structure.copy()
